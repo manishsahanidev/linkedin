@@ -6,9 +6,10 @@ import classes from "./Profile.module.scss";
 
 interface ProfileProps {
     showProfileMenu: boolean;
-    setShowNavigationMenu: Dispatch<SetStateAction<boolean>>;
     setShowProfileMenu: Dispatch<SetStateAction<boolean>>;
+    setShowNavigationMenu: Dispatch<SetStateAction<boolean>>;
 }
+
 export function Profile({
     showProfileMenu,
     setShowProfileMenu,
@@ -24,9 +25,7 @@ export function Profile({
                 setShowProfileMenu(false);
             }
         };
-
         document.addEventListener("click", handleClick);
-
         return () => document.removeEventListener("click", handleClick);
     }, [setShowProfileMenu]);
 
