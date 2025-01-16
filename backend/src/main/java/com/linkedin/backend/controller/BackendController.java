@@ -1,5 +1,6 @@
 package com.linkedin.backend.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,7 +22,7 @@ public class BackendController {
     public ResponseEntity<Map<String,String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("Message","Required request body is missing."));
+                .body(Map.of("message","Required request body is missing."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -36,27 +37,35 @@ public class BackendController {
         );
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("Message",errorMessage.toString()));
+                .body(Map.of("message",errorMessage.toString()));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<Map<String, String>> handleNoResourceFoundException(NoResourceFoundException e){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("Message", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
     }
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public ResponseEntity<Map<String,String>> handleIllegalArgumentException(IllegalArgumentException e){
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("Message",e.getMessage()));
+                .body(Map.of("message",e.getMessage()));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        if (e.getMessage().contains("Duplicate entry")) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Email already exists, please use another email or login."));
+        }
+        return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception e){
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("Message", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
     }
 }

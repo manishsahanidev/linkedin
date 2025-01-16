@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
 
-    private static final int durationInMinutes = 5;
+    private static final int durationInMinutes = 1;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
     public final AuthenticationUserRepository authenticationUserRepository;
