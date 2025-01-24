@@ -16,7 +16,8 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendEmail(String email, String subject, String content) throws MessagingException, UnsupportedEncodingException {
+    public void sendEmail(String email, String subject, String content)
+            throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 

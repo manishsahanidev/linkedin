@@ -1,11 +1,13 @@
 package com.linkedin.backend.features.authentication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.linkedin.backend.features.feed.model.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "users")
 public class AuthenticationUser {
@@ -34,12 +36,19 @@ public class AuthenticationUser {
 
     // User profile details
     private String firstName = null;
-    private String lastName= null;
-    private String company= null;
-    private String position= null;
-    private String location= null;
-    private String profilePicture= null;
+    private String lastName = null;
+    private String company = null;
+    private String position = null;
+    private String location = null;
+    private String profilePicture = null;
     private Boolean profileComplete = false;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "author",
+            cascade = CascadeType.ALL, orphanRemoval = true
+    )
+    private List<Post> posts;
 
     // Constructors
     public AuthenticationUser() {
@@ -48,6 +57,13 @@ public class AuthenticationUser {
     public AuthenticationUser(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    // Helper Method
+    private void updateProfileCompletionStatus() {
+        this.profileComplete = (firstName != null && lastName != null &&
+                company != null && position != null &&
+                location != null);
     }
 
     // Getters and Setters
@@ -121,6 +137,7 @@ public class AuthenticationUser {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+        updateProfileCompletionStatus();
     }
 
     public String getLastName() {
@@ -129,6 +146,7 @@ public class AuthenticationUser {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        updateProfileCompletionStatus();
     }
 
     public String getCompany() {
@@ -137,6 +155,7 @@ public class AuthenticationUser {
 
     public void setCompany(String company) {
         this.company = company;
+        updateProfileCompletionStatus();
     }
 
     public String getPosition() {
@@ -145,6 +164,7 @@ public class AuthenticationUser {
 
     public void setPosition(String position) {
         this.position = position;
+        updateProfileCompletionStatus();
     }
 
     public String getLocation() {
@@ -153,6 +173,19 @@ public class AuthenticationUser {
 
     public void setLocation(String location) {
         this.location = location;
+        updateProfileCompletionStatus();
+    }
+
+    public Boolean getProfileComplete() {
+        return profileComplete;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public String getProfilePicture() {
@@ -161,13 +194,5 @@ public class AuthenticationUser {
 
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
-    }
-
-    public Boolean getProfileComplete() {
-        return profileComplete;
-    }
-
-    public void setProfileComplete(Boolean profileComplete) {
-        this.profileComplete = profileComplete;
     }
 }
