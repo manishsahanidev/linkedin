@@ -1,8 +1,7 @@
 import classes from './VerifyEmail.module.scss'
-import { Layout } from "../../components/Layout/Layout"
-import { Input } from '../../components/Input/Input'
+import { Input } from '../../../../components/Input/Input'
 import { useState } from 'react'
-import { Button } from '../../components/Button/Button'
+import { Button } from '../../../../components/Button/Button'
 import { Box } from '../../components/Box/Box'
 import { useNavigate } from 'react-router-dom'
 
@@ -65,7 +64,7 @@ export const VerifyEmail = () => {
     }
 
     return (
-        <Layout className={classes.root}>
+        <div className={classes.root}>
             <Box>
                 <div className={classes.container}>
 
@@ -111,6 +110,6 @@ export const VerifyEmail = () => {
                 </div>
             </Box>
 
-        </Layout>
+        </div>
     )
 }

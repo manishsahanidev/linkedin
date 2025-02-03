@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
-import classes from './Seperator.module.scss'
+import classes from './Separator.module.scss'
 
-export const Seperator = (
+export const Separator = (
     { children }: { children: ReactNode }
 ) => {
     return (

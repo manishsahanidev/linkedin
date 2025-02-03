@@ -1,18 +1,24 @@
-import { ReactNode } from "react"
-import classes from './Layout.module.scss'
+import classes from './AuthenticationLayout.module.scss'
+import { Outlet } from "react-router-dom"
 
-export const Layout = ({ children, className }: { children: ReactNode, className: string }) => {
+export const AuthenticationLayout = () => {
     return (
-        <div className={`${classes.root} ${className}`}>
+        <div className={classes.root}>
 
             <header className={classes.container}>
                 <a href="/">
-                    <img src="/logo.svg" alt="logo" className={classes.logo} />
+                    <img
+                        src="/logo.svg"
+                        alt="logo"
+                        className={classes.logo}
+                    />
                 </a>
             </header>
+
             <main className={classes.container}>
-                {children}
+                <Outlet />
             </main>
+
             <footer>
                 <ul className={classes.container}>
                     <li>

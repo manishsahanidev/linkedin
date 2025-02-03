@@ -21,7 +21,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    @JsonIgnore
     private AuthenticationUser author;
 
     @Column(nullable = false)
@@ -35,6 +34,9 @@ public class Comment {
     @PreUpdate
     public void preUpdate() {
         this.updatedDate = LocalDateTime.now();
+    }
+
+    public Comment() {
     }
 
     public Comment(AuthenticationUser author, Post post, String content) {

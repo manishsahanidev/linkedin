@@ -1,15 +1,23 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { Dispatch, createContext, useContext, useEffect, useState } from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Loader } from "../../../components/Loader/Loader";
 
-interface User {
+export interface User {
     id: string;
     email: string;
     emailVerified: boolean;
+    firstName?: string;
+    lastName?: string;
+    company?: string;
+    position?: string;
+    location?: string;
+    profileComplete: boolean;
+    profilePicture?: string;
 }
 
 interface AuthenticationContextType {
     user: User | null;
+    setUser: Dispatch<React.SetStateAction<User | null>>;
     login: (email: string, password: string) => Promise<void>;
     signup: (email: string, password: string) => Promise<void>;
     logout: () => void;
@@ -18,7 +26,7 @@ interface AuthenticationContextType {
 const AuthenticationContext = createContext<AuthenticationContextType | null>(null);
 
 export function useAuthentication() {
-    return useContext(AuthenticationContext);
+    return useContext(AuthenticationContext)!;
 }
 
 export const AuthenticationContextProvider = () => {
@@ -28,9 +36,9 @@ export const AuthenticationContextProvider = () => {
     const location = useLocation();
 
     const isOnAuthPage =
-        location.pathname === "/login" ||
-        location.pathname === "/signup" ||
-        location.pathname === "/reset-password";
+        location.pathname === "/authentication/login" ||
+        location.pathname === "/authentication/signup" ||
+        location.pathname === "/authentication/reset-password";
 
     const login = async (email: string, password: string) => {
         const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/login", {
@@ -104,18 +112,43 @@ export const AuthenticationContextProvider = () => {
     }
 
     if (!isLoading && !user && !isOnAuthPage) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/authentication/login" />;
     }
 
-    if (user && user.emailVerified && isOnAuthPage) {
+    if (user && !user.emailVerified && location.pathname !== "/authentication/verify-email") {
+        return <Navigate to="/authentication/verify-email" />;
+    }
+
+    if (user && user.emailVerified && location.pathname == "/authentication/verify-email") {
+        console.log("here1");
+        return <Navigate to="/" />;
+    }
+
+    if (
+        user &&
+        user.emailVerified &&
+        !user.profileComplete &&
+        !location.pathname.includes("/authentication/profile")
+    ) {
+        return <Navigate to={`/authentication/profile/${user.id}`} />;
+    }
+
+    if (
+        user &&
+        user.emailVerified &&
+        user.profileComplete &&
+        location.pathname.includes("/authentication/profile")
+    ) {
+        console.log("here2");
+        return <Navigate to="/" />;
+    }
+
+    if (user && isOnAuthPage) {
         return <Navigate to="/" />;
     }
 
     return (
-        <AuthenticationContext.Provider value={{ user, login, signup, logout }}>
-            {
-                user && !user.emailVerified ? <Navigate to="/verify-email" /> : null
-            }
+        <AuthenticationContext.Provider value={{ user, setUser, login, signup, logout }}>
             <Outlet />
         </AuthenticationContext.Provider>
     )

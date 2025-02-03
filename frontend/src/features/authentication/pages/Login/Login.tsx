@@ -2,13 +2,13 @@ import { FormEvent, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Box } from "../../components/Box/Box";
 import classes from "./Login.module.scss";
-import { Input } from "../../components/Input/Input";
-import { Button } from "../../components/Button/Button";
-import { Seperator } from "../../components/Separator/Seperator";
-import { Layout } from "../../components/Layout/Layout";
+import { Input } from "../../../../components/Input/Input";
+import { Button } from "../../../../components/Button/Button";
+import { Separator } from "../../components/Separator/Separator";
 import { useAuthentication } from "../../context/AuthenticationContextProvider";
 
 export function Login() {
+
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useAuthentication();
@@ -38,18 +38,16 @@ export function Login() {
         } finally {
             setIsLoading(false);
         }
-
     }
 
     return (
-        <Layout className={classes.root}>
+        <div className={classes.root}>
             <Box>
 
                 <h1>Sign in</h1>
                 <p>Stay updated on your professional world.</p>
 
                 <form onSubmit={doLogin}>
-
                     <Input
                         label="Email"
                         type="email"
@@ -72,16 +70,15 @@ export function Login() {
                         {isLoading ? "..." : "Sign in"}
                     </Button>
 
-                    <Link to="/reset-password">Forgot password?</Link>
-
+                    <Link to="/authentication/reset-password">Forgot password?</Link>
                 </form>
 
-                <Seperator>Or</Seperator>
+                <Separator>Or</Separator>
 
                 <div className={classes.register}>
-                    New to LinkedIn? <Link to="/signup">Join now</Link>
+                    New to LinkedIn? <Link to="/authentication/signup">Join now</Link>
                 </div>
             </Box>
-        </Layout>
+        </div>
     );
 }
