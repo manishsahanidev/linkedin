@@ -51,7 +51,8 @@ public class AuthenticationController {
     }
 
     @PutMapping("/validate-email-verification-token")
-    public ResponseEntity<String> verifyEmail(@RequestParam String token, @RequestAttribute("authenticatedUser") AuthenticationUser user) {
+    public ResponseEntity<String> verifyEmail(@RequestParam String token,
+                                              @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.validateEmailVerificationToken(token, user.getEmail());
         return ResponseEntity.ok("Email verified successfully.");
     }
@@ -69,7 +70,9 @@ public class AuthenticationController {
     }
 
     @PutMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String newPassword, @RequestParam String token, @RequestParam String email) {
+    public ResponseEntity<String> resetPassword(@RequestParam String newPassword,
+                                                @RequestParam String token,
+                                                @RequestParam String email) {
         authenticationService.resetPassword(email, newPassword, token);
         return ResponseEntity.ok("Password reset successfully.");
     }

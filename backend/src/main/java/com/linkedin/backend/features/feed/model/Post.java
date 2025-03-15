@@ -1,5 +1,6 @@
 package com.linkedin.backend.features.feed.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.linkedin.backend.features.authentication.model.AuthenticationUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,12 +34,14 @@ public class Post {
         this.updatedDate = LocalDateTime.now();
     }
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "post",
             cascade = CascadeType.ALL, orphanRemoval = true
     )
     private List<Comment> comments;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "posts_likes",

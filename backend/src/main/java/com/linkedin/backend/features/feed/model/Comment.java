@@ -31,11 +31,6 @@ public class Comment {
 
     private LocalDateTime updatedDate;
 
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedDate = LocalDateTime.now();
-    }
-
     public Comment() {
     }
 
@@ -43,6 +38,11 @@ public class Comment {
         this.author = author;
         this.post = post;
         this.content = content;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedDate = LocalDateTime.now();
     }
 
     public AuthenticationUser getAuthor() {

@@ -11,7 +11,7 @@ public class AuthenticationRequestBody {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    public AuthenticationRequestBody( String email, String password) {
+    public AuthenticationRequestBody(String email, String password) {
         this.email = email;
         this.password = password;
     }

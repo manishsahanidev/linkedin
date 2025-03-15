@@ -10,6 +10,7 @@ import com.linkedin.backend.features.feed.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FeedService {
@@ -79,7 +80,7 @@ public class FeedService {
         AuthenticationUser user = authenticationUserRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if(!post.getAuthor().equals(user)) {
+        if (!post.getAuthor().equals(user)) {
             throw new IllegalArgumentException("User is not the author of the post");
         }
 
@@ -93,7 +94,7 @@ public class FeedService {
         AuthenticationUser user = authenticationUserRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (post.getLikes().contains(user)){
+        if (post.getLikes().contains(user)) {
             post.getLikes().remove(user);
         } else {
             post.getLikes().add(user);
@@ -146,6 +147,12 @@ public class FeedService {
         }
 
         commentRepository.delete(comment);
+    }
+
+    public Set<AuthenticationUser> getPostLikes(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        return post.getLikes();
     }
 }
 

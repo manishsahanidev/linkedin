@@ -19,16 +19,16 @@ import java.util.Map;
 public class BackendController {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String,String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
+    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("message","Required request body is missing."));
+                .body(Map.of("message", "Required request body is missing."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         StringBuilder errorMessage = new StringBuilder();
-        e.getBindingResult().getFieldErrors().forEach( error ->
+        e.getBindingResult().getFieldErrors().forEach(error ->
                 errorMessage
                         .append(error.getField())
                         .append(": ")
@@ -37,21 +37,21 @@ public class BackendController {
         );
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("message",errorMessage.toString()));
+                .body(Map.of("message", errorMessage.toString()));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<Map<String, String>> handleNoResourceFoundException(NoResourceFoundException e){
+    public ResponseEntity<Map<String, String>> handleNoResourceFoundException(NoResourceFoundException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", e.getMessage()));
     }
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
-    public ResponseEntity<Map<String,String>> handleIllegalArgumentException(IllegalArgumentException e){
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("message",e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -63,7 +63,7 @@ public class BackendController {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleException(Exception e){
+    public ResponseEntity<Map<String, String>> handleException(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("message", e.getMessage()));

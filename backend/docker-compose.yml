@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:latest
+    image: mysql:9.1.0
     container_name: linkedin-db
     environment:
       MYSQL_DATABASE: linkedin
@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
   mailhog:
-    image: mailhog/mailhog
+    image: mailhog/mailhog:v1.0.1
     ports:
       - '1025:1025'
       - '8025:8025'  # Web UI for viewing emails

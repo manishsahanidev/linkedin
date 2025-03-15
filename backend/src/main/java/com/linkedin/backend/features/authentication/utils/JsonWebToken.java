@@ -42,7 +42,7 @@ public class JsonWebToken {
         return claimResolver.apply(claims);
     }
 
-    public String getEmailFromToken(String token){
+    public String getEmailFromToken(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

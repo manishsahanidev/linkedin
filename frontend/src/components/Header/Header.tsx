@@ -4,7 +4,9 @@ import { useAuthentication } from "../../features/authentication/context/Authent
 import { Input } from "../Input/Input";
 import classes from "./Header.module.scss";
 import { Profile } from "./components/Profile/Profile";
+
 export function Header() {
+
     const { user } = useAuthentication();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showNavigationMenu, setShowNavigationMenu] = useState(
@@ -26,6 +28,7 @@ export function Header() {
             <div className={classes.container}>
                 <div className={classes.left}>
                     <NavLink to="/">
+                        {/* Linkedin logo */}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
