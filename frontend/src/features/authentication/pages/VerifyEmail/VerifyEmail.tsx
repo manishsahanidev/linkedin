@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { Button } from '../../../../components/Button/Button'
 import { Box } from '../../components/Box/Box'
 import { useNavigate } from 'react-router-dom'
+import { useAuthentication } from '../../context/AuthenticationContextProvider'
 
 export const VerifyEmail = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const { user, setUser } = useAuthentication();
 
     const navigate = useNavigate();
 
@@ -24,7 +26,11 @@ export const VerifyEmail = () => {
 
             if (response.ok) {
                 setErrorMessage("");
+                if (user) {
+                    setUser({ ...user, emailVerified: true });
+                }
                 navigate("/");
+
             }
 
             const { message } = await response.json();

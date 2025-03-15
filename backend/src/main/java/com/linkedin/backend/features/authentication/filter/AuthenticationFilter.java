@@ -53,12 +53,12 @@ public class AuthenticationFilter extends HttpFilter {
         }
 
         try {
-            String authorization = request.getHeader("Authorization");
+            String authorization = request.getHeader("Authorization"); //Authorization: Bearer abc123.jwt.token
             if (authorization == null || !authorization.startsWith("Bearer ")) {
                 throw new ServletException("Token missing.");
             }
 
-            String token = authorization.substring(7);
+            String token = authorization.substring(7); //Bearer <token>
 
             if (jsonWebTokenService.isTokenExpired(token)) {
                 throw new ServletException("Invalid token");

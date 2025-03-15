@@ -32,11 +32,11 @@ public class LoadDatabaseConfiguration {
 
     private List<AuthenticationUser> createUsers(AuthenticationUserRepository authenticationUserRepository) {
         List<AuthenticationUser> users = List.of(
-                createUser("john.doe@example.com", "john", "John", "Doe", "Software Engineer", "Docker Inc.", "San Francisco, CA",
-                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                createUser("anne.claire@example.com", "anne", "Anne", "Claire", "HR Manager", "eToro", "Paris, Fr",
-                        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                createUser("arnauld.manner@example.com", "arnauld", "Arnauld", "Manner", "Product Manager", "Arc", "Dakar, SN",
+                createUser("manish@example.com", "manish", "Manish", "Sahani", "Software Developer", "Google", "Mumbai, Maharashtra",
+                        ""),
+                createUser("sumit@example.com", "sumit", "Sumit", "Vishwakarma", "HR Manager", "Oracle", "Noida, UP",
+                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                createUser("abhi@example.com", "abhi", "Abhi", "Vishwakarma", "Product Manager", "Microsoft", "Bangalore, Karnataka",
                         "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?q=80&w=2725&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                 createUser("moussa.diop@example.com", "moussa", "Moussa", "Diop", "Software Engineer", "Orange", "Bordeaux, FR",
                         "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),

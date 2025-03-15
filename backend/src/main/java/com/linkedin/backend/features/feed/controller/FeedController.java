@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/feed")
@@ -36,14 +37,14 @@ public class FeedController {
 
     // Get a post with postID
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<Post> getPost(@PathVariable Long postId){
+    public ResponseEntity<Post> getPost(@PathVariable Long postId) {
         Post post = feedService.getPost(postId);
         return ResponseEntity.ok(post);
     }
 
     // Create a post
     @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody PostDto postDto, @RequestAttribute("authenticatedUser")AuthenticationUser user) {
+    public ResponseEntity<Post> createPost(@RequestBody PostDto postDto, @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         Post post = feedService.createPost(postDto, user.getId());
         return ResponseEntity.ok(post);
     }
@@ -58,7 +59,7 @@ public class FeedController {
     // Delete a post
     @DeleteMapping("/posts/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId,
-                                               @RequestAttribute("authenticatedUser") AuthenticationUser user) {
+                                           @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         feedService.deletePost(postId, user.getId());
         return ResponseEntity.noContent().build();
     }
@@ -72,9 +73,15 @@ public class FeedController {
 
     // Like a post
     @PutMapping("/posts/{postId}/like")
-    public ResponseEntity<Post> likePost(@PathVariable Long postId, @RequestAttribute("authenticatedUser") AuthenticationUser user){
+    public ResponseEntity<Post> likePost(@PathVariable Long postId, @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         Post post = feedService.likePost(postId, user.getId());
         return ResponseEntity.ok(post);
+    }
+
+    @GetMapping("/posts/{postId}/likes")
+    public ResponseEntity<Set<AuthenticationUser>> getPostLikes(@PathVariable Long postId) {
+        Set<AuthenticationUser> likes = feedService.getPostLikes(postId);
+        return ResponseEntity.ok(likes);
     }
 
     // Comments Endpoints

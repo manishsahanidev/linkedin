@@ -15,7 +15,7 @@ public class Encoder {
             byte[] hash = digest.digest(rawString.getBytes());
             return Base64.getEncoder().encodeToString(hash);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error encoding string: "+e);
+            throw new RuntimeException("Error encoding string: " + e);
         }
     }
 

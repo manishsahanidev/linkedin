@@ -80,6 +80,14 @@ export const AuthenticationContextProvider = () => {
         setUser(null);
     }
 
+
+    useEffect(() => {
+        if (user) {
+            return;
+        }
+        fetchUser();
+    }, [user, location.pathname]);
+
     const fetchUser = async () => {
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/user", {
@@ -99,13 +107,6 @@ export const AuthenticationContextProvider = () => {
             setIsLoading(false);
         }
     }
-
-    useEffect(() => {
-        if (user) {
-            return;
-        }
-        fetchUser();
-    }, [user, location.pathname]);
 
     if (isLoading) {
         return <Loader />;

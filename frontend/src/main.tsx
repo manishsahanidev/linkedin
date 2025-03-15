@@ -1,16 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.scss'
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Feed from './features/feed/pages/Feed/Feed'
-import { Login } from './features/authentication/pages/Login/Login'
-import { Signup } from './features/authentication/pages/Signup/Signup'
-import { ResetPassword } from './features/authentication/pages/ResetPassword/ResetPassword'
-import { VerifyEmail } from './features/authentication/pages/VerifyEmail/VerifyEmail'
-import { AuthenticationContextProvider } from './features/authentication/context/AuthenticationContextProvider'
-import { AuthenticationLayout } from './features/authentication/components/AuthenticationLayout/AuthenticationLayout'
-import ApplicationLayout from './components/ApplicationLayout/ApplicationLayout'
-import { Profile } from './features/authentication/pages/Profile/Profile'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.scss';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Feed from './features/feed/pages/Feed/Feed';
+import { Login } from './features/authentication/pages/Login/Login';
+import { Signup } from './features/authentication/pages/Signup/Signup';
+import { ResetPassword } from './features/authentication/pages/ResetPassword/ResetPassword';
+import { VerifyEmail } from './features/authentication/pages/VerifyEmail/VerifyEmail';
+import { AuthenticationContextProvider } from './features/authentication/context/AuthenticationContextProvider';
+import { AuthenticationLayout } from './features/authentication/components/AuthenticationLayout/AuthenticationLayout';
+import ApplicationLayout from './components/ApplicationLayout/ApplicationLayout';
+import { Profile } from './features/authentication/pages/Profile/Profile';
 
 const router = createBrowserRouter([
   {
