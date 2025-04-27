@@ -80,29 +80,29 @@ export const AuthenticationContextProvider = () => {
         setUser(null);
     }
 
-    const fetchUser = async () => {
-        try {
-            const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/user", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            if (!response.ok) {
-                throw new Error("Authentication Failed");
-            }
-            const user = await response.json();
-            setUser(user);
-
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
     useEffect(() => {
         if (user) {
             return;
+        }
+        setIsLoading(true);
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/user", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error("Authentication Failed");
+                }
+                const user = await response.json();
+                setUser(user);
+
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
         }
         fetchUser();
     }, [user, location.pathname]);
@@ -120,7 +120,6 @@ export const AuthenticationContextProvider = () => {
     }
 
     if (user && user.emailVerified && location.pathname == "/authentication/verify-email") {
-        console.log("here1");
         return <Navigate to="/" />;
     }
 
@@ -139,7 +138,6 @@ export const AuthenticationContextProvider = () => {
         user.profileComplete &&
         location.pathname.includes("/authentication/profile")
     ) {
-        console.log("here2");
         return <Navigate to="/" />;
     }
 

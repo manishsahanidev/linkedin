@@ -22,7 +22,7 @@ const LeftSidebar = () => {
                     <div className={classes.value}>1,234</div>
                 </div>
                 <div className={classes.item}>
-                    <div className={classes.label}>Connexions</div>
+                    <div className={classes.label}>Connections</div>
                     <div className={classes.value}>4,567</div>
                 </div>
             </div>

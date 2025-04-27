@@ -51,13 +51,15 @@ public class AuthenticationController {
     }
 
     @PutMapping("/validate-email-verification-token")
-    public ResponseEntity<String> verifyEmail(@RequestParam String token, @RequestAttribute("authenticatedUser") AuthenticationUser user) {
+    public ResponseEntity<String> verifyEmail(@RequestParam String token,
+            @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.validateEmailVerificationToken(token, user.getEmail());
         return ResponseEntity.ok("Email verified successfully.");
     }
 
     @GetMapping("/send-email-verification-token")
-    public ResponseEntity<String> sendEmailVerificationToken(@RequestAttribute("authenticatedUser") AuthenticationUser user) {
+    public ResponseEntity<String> sendEmailVerificationToken(
+            @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.sendEmailVerificationToken(user.getEmail());
         return ResponseEntity.ok("Email verification token sent successfully.");
     }
@@ -69,7 +71,8 @@ public class AuthenticationController {
     }
 
     @PutMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String newPassword, @RequestParam String token, @RequestParam String email) {
+    public ResponseEntity<String> resetPassword(@RequestParam String newPassword, @RequestParam String token,
+            @RequestParam String email) {
         authenticationService.resetPassword(email, newPassword, token);
         return ResponseEntity.ok("Password reset successfully.");
     }
@@ -85,8 +88,7 @@ public class AuthenticationController {
             @RequestParam(required = false) String location,
             @RequestParam(required = false) String profilePicture,
             @RequestParam(required = false) String coverPicture,
-            @RequestParam(required = false) String about
-    ) {
+            @RequestParam(required = false) String about) {
 
         // check if the user has permission to update the profile
         if (!user.getId().equals(id)) {
@@ -94,7 +96,8 @@ public class AuthenticationController {
                     "User does not have permission to update this profile.");
         }
 
-        return authenticationService.updateUserProfile(id, firstName, lastName, company, position, location, profilePicture, coverPicture, about);
+        return authenticationService.updateUserProfile(id, firstName, lastName, company, position, location,
+                profilePicture, coverPicture, about);
     }
 
 }

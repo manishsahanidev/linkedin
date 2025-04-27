@@ -75,11 +75,7 @@ const Feed = () => {
             <div className={classes.center}>
 
                 <div className={classes.posting}>
-                    <button
-                        onClick={() => {
-                            navigate(`/profile/${user?.id}`);
-                        }}
-                    >
+                    <button onClick={() => { navigate(`/profile/${user?.id}`) }}>
                         <img
                             className={`${classes.top} ${classes.avatar}`}
                             src={user?.profilePicture || "/avatar.png"}
@@ -110,7 +106,7 @@ const Feed = () => {
                         className={feedContent === "connections" ? classes.active : ""}
                         onClick={() => setFeedContent("connections")}
                     >
-                        Feed
+                        Connections
                     </button>
                 </div>
 

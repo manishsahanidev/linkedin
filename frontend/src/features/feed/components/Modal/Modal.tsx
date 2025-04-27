@@ -4,21 +4,21 @@ import { Input } from "../../../../components/Input/Input";
 import { Button } from "../../../../components/Button/Button";
 
 interface PostingModalProps {
-    showModal: boolean;
+    title: string;
     content?: string;
     picture?: string;
+    showModal: boolean;
     setShowModal: Dispatch<SetStateAction<boolean>>;
     onSubmit: (content: string, picture: string) => Promise<void>;
-    title: string;
 }
 
 export const Modal = ({
+    title,
+    content = "",
+    picture = "",
     showModal,
     setShowModal,
     onSubmit,
-    content = "",
-    picture = "",
-    title,
 }: PostingModalProps) => {
 
     const [error, setError] = useState("");
@@ -65,18 +65,18 @@ export const Modal = ({
                 >
                     <div className={classes.body}>
                         <textarea
+                            name="content"
                             placeholder="What do you want to talk about?"
                             onFocus={() => setError("")}
                             onChange={() => setError("")}
-                            name="content"
                             defaultValue={content}
                         />
                         <Input
-                            defaultValue={picture}
+                            name="picture"
+                            placeholder="Image URL (optional)"
                             onFocus={() => setError("")}
                             onChange={() => setError("")}
-                            placeholder="Image URL (optional)"
-                            name="picture"
+                            defaultValue={picture}
                             style={{
                                 marginBlock: 0,
                             }}

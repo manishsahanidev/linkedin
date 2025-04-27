@@ -35,6 +35,11 @@
     font-size: 0.8rem;
   }
 
+  .comments {
+    padding: 0 1rem 1rem;
+    border-top: 1px solid #e0e0e0;
+  }
+
   button.toggle {
     background-color: transparent;
     width: 1.5rem;
@@ -114,6 +119,10 @@
 
       &.active {
         color: var(--primary-color);
+      }
+
+      &[disabled] {
+        cursor: wait;
       }
     }
   }

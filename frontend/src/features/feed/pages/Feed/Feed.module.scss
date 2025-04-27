@@ -1,9 +1,7 @@
 .root {
+  height: 100%;
   display: grid;
   gap: 2rem;
-  max-width: 74rem;
-  width: 100%;
-  margin: 0 auto;
 
   .left,
   .right {
@@ -53,6 +51,11 @@
 
   .error {
     color: red;
+  }
+
+  .comments {
+    padding: 0 1rem 1rem;
+    border-top: 1px solid #e0e0e0;
   }
 
   @media screen and (width >= 1135px) {

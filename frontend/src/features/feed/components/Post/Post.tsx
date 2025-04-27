@@ -250,15 +250,15 @@ export function Post({ post, setPosts }: PostProps) {
     };
 
     return (
-        <>
+        <div>
             {editing ? (
                 <Modal
                     title="Editing your post"
                     content={post.content}
                     picture={post.picture}
-                    onSubmit={editPost}
                     showModal={editing}
                     setShowModal={setEditing}
+                    onSubmit={editPost}
                 />
             ) : null}
             <div className={classes.root}>
@@ -383,6 +383,6 @@ export function Post({ post, setPosts }: PostProps) {
                     </div>
                 ) : null}
             </div>
-        </>
+        </div>
     );
 }

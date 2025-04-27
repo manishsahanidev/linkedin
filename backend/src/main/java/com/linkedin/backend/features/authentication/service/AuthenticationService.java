@@ -33,7 +33,8 @@ public class AuthenticationService {
     private final EmailService emailService;
 
     @Autowired
-    public AuthenticationService(AuthenticationUserRepository authenticationUserRepository, Encoder encoder, JsonWebToken jsonWebToken, EmailService emailService) {
+    public AuthenticationService(AuthenticationUserRepository authenticationUserRepository, Encoder encoder,
+            JsonWebToken jsonWebToken, EmailService emailService) {
         this.authenticationUserRepository = authenticationUserRepository;
         this.encoder = encoder;
         this.jsonWebToken = jsonWebToken;
@@ -54,7 +55,7 @@ public class AuthenticationService {
     }
 
     // Send email verification token
-    public void sendEmailVerificationToken(String email){
+    public void sendEmailVerificationToken(String email) {
         Optional<AuthenticationUser> user = authenticationUserRepository.findByEmail(email);
 
         if (user.isPresent() && !user.get().getEmailVerified()) {
@@ -68,8 +69,8 @@ public class AuthenticationService {
 
             String subject = "Email Verification";
             String body = String.format("Only one step to take full advantage of LinkedIn.\n\n"
-                            + "Enter this code to verify your email: " + "%s\n\n" + "The code will expire in " + "%s"
-                            + " minutes.",
+                    + "Enter this code to verify your email: " + "%s\n\n" + "The code will expire in " + "%s"
+                    + " minutes.",
                     emailVerificationToken, durationInMinutes);
 
             try {
@@ -105,7 +106,7 @@ public class AuthenticationService {
     // Retrieve user by email
     public AuthenticationUser getUser(String email) {
         return authenticationUserRepository.findByEmail(email)
-                .orElseThrow(() ->new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
     // Register a new user
@@ -142,11 +143,11 @@ public class AuthenticationService {
     public AuthenticationResponseBody login(AuthenticationRequestBody loginRequestBody) {
         AuthenticationUser user = authenticationUserRepository.findByEmail(loginRequestBody.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if(!encoder.matches(loginRequestBody.getPassword(), user.getPassword())){
+        if (!encoder.matches(loginRequestBody.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
         String token = jsonWebToken.generateToken(loginRequestBody.getEmail());
-        return new AuthenticationResponseBody(token,"Login success!");
+        return new AuthenticationResponseBody(token, "Login success!");
     }
 
     // Reset password
@@ -199,15 +200,21 @@ public class AuthenticationService {
     }
 
     // Update user profile
-    public AuthenticationUser updateUserProfile(Long id, String firstName, String lastName, String company, String position, String location, String profilePicture, String coverPicture, String about) {
+    public AuthenticationUser updateUserProfile(Long id, String firstName, String lastName, String company,
+            String position, String location, String profilePicture, String coverPicture, String about) {
         AuthenticationUser user = authenticationUserRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (firstName != null) user.setFirstName(firstName);
-        if (lastName != null) user.setLastName(lastName);
-        if (company != null) user.setCompany(company);
-        if (position != null) user.setPosition(position);
-        if (location != null) user.setLocation(location);
+        if (firstName != null)
+            user.setFirstName(firstName);
+        if (lastName != null)
+            user.setLastName(lastName);
+        if (company != null)
+            user.setCompany(company);
+        if (position != null)
+            user.setPosition(position);
+        if (location != null)
+            user.setLocation(location);
 
         return authenticationUserRepository.save(user);
 
@@ -220,8 +227,8 @@ public class AuthenticationService {
 
         if (user != null) {
             entityManager.createNativeQuery("DELETE FROM posts_likes WHERE user_id = :userId ")
-                            .setParameter("userId", userId)
-                            .executeUpdate();
+                    .setParameter("userId", userId)
+                    .executeUpdate();
             authenticationUserRepository.deleteById(userId);
         }
     }
