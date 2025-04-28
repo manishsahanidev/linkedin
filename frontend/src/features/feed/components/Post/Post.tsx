@@ -1,11 +1,11 @@
 import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../../../../components/Input/Input";
-import { timeAgo } from "../../utils/date";
 import { Comment } from "../Comment/Comment";
 import classes from "./Post.module.scss";
 import { User, useAuthentication } from "../../../authentication/context/AuthenticationContextProvider";
 import { Modal } from "../Modal/Modal";
+import { TimeAgo } from "../TimeAgo/TimeAgo";
 
 export interface Post {
     id: number;
@@ -282,10 +282,7 @@ export function Post({ post, setPosts }: PostProps) {
                             <div className={classes.title}>
                                 {post.author.position + " at " + post.author.company}
                             </div>
-                            <div className={classes.date}>
-                                {timeAgo(new Date(post.updatedDate || post.creationDate))}
-                                {post.updatedDate ? " • Edited " : ""}
-                            </div>
+                            <TimeAgo date={post.creationDate} edited={!!post.updatedDate} />
                         </div>
                     </div>
                     <div>

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../../../../components/Input/Input";
-import { timeAgo } from "../../utils/date";
 import classes from "./Comment.module.scss";
 import { User, useAuthentication } from "../../../authentication/context/AuthenticationContextProvider";
+import { TimeAgo } from "../TimeAgo/TimeAgo";
 
 export interface Comment {
     id: number;
@@ -48,10 +48,7 @@ export function Comment({ comment, deleteComment, editComment }: CommentProps) {
                                 <div className={classes.title}>
                                     {comment.author.position + " at " + comment.author.company}
                                 </div>
-                                <div className={classes.date}>
-                                    {timeAgo(new Date(comment.updatedDate || comment.creationDate))}
-                                    {comment.updatedDate ? " • Edited " : ""}
-                                </div>
+                                <TimeAgo date={comment.creationDate} edited={!!comment.updatedDate} />
                             </div>
                         </button>
                         {comment.author.id == user?.id && (
