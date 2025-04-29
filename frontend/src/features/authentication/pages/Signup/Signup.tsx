@@ -45,11 +45,13 @@ export const Signup = () => {
                         label="Email"
                         type="email"
                         id="email"
+                        onFocus={() => setErrorMessage("")}
                     />
                     <Input
                         label="Password"
                         type="password"
                         id="password"
+                        onFocus={() => setErrorMessage("")}
                     />
 
                     {errorMessage && <p className={classes.error}>{errorMessage}</p>}
@@ -67,7 +69,7 @@ export const Signup = () => {
                 </form>
                 <Separator>Or</Separator>
                 <div className={classes.register}>
-                    Already on LinkedIn? <Link to="/login">Sign in</Link>
+                    Already on LinkedIn? <Link to="/authentication/login">Sign in</Link>
                 </div>
             </Box>
         </div>

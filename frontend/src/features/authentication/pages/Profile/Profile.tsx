@@ -3,22 +3,23 @@ import { Input } from '../../../../components/Input/Input';
 import { Box } from '../../components/Box/Box';
 import classes from './Profile.module.scss';
 import { Button } from '../../../../components/Button/Button';
-import { useAuthentication } from '../../context/AuthenticationContextProvider';
+import { useAuthentication, User } from '../../context/AuthenticationContextProvider';
 import { useNavigate } from 'react-router-dom';
+import { request } from '../../../../utils/api';
 
 export const Profile = () => {
 
     const [step, setStep] = useState(0);
     const [error, setError] = useState('');
-    const [data, setData] = useState({
-        firstName: "",
-        lastName: "",
-        company: "",
-        position: "",
-        location: "",
-    });
     const { user, setUser } = useAuthentication();
     const navigate = useNavigate();
+    const [data, setData] = useState({
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        company: user?.company || "",
+        position: user?.position || "",
+        location: user?.location || "",
+    });
 
     const onSubmit = async () => {
         if (!data.firstName || !data.lastName) {
@@ -34,35 +35,17 @@ export const Profile = () => {
             return;
         }
 
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/authentication/profile/${user?.id}?firstName=${data.firstName}&lastName=${data.lastName}&company=${data.company}&position=${data.position}&location=${data.location
-                }`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
-
-            if (res.ok) {
-                const updatedUser = await res.json();
-                setUser(updatedUser);
-            } else {
-                const { message } = await res.json();
-                throw new Error(message)
-            }
-
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-            } else {
-                setError("An unknown error occurred.")
-            }
-        } finally {
-            navigate("/");
-        }
-    }
+        await request<User>({
+            endpoint: `/api/v1/authentication/profile/${user?.id}?firstName=${data.firstName}&lastName=${data.lastName}&company=${data.company}&position=${data.position}&location=${data.location}`,
+            method: "PUT",
+            body: JSON.stringify(data),
+            onSuccess: (data) => {
+                setUser(data);
+                navigate("/");
+            },
+            onFailure: (error) => setError(error),
+        });
+    };
 
     return (
         <div className={classes.root}>

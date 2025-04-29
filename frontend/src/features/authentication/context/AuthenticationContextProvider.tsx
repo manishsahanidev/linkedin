@@ -1,6 +1,12 @@
 import { Dispatch, createContext, useContext, useEffect, useState } from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Loader } from "../../../components/Loader/Loader";
+import { request } from "../../../utils/api";
+
+interface AuthenticationResponse {
+    token: string;
+    message: string;
+}
 
 export interface User {
     id: string;
@@ -41,38 +47,31 @@ export const AuthenticationContextProvider = () => {
         location.pathname === "/authentication/reset-password";
 
     const login = async (email: string, password: string) => {
-        const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/login", {
+        await request<AuthenticationResponse>({
+            endpoint: "/api/v1/authentication/login",
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify({ email, password }),
+            onSuccess: ({ token }) => {
+                localStorage.setItem("token", token);
+            },
+            onFailure: (error) => {
+                throw new Error(error);
+            }
         });
-
-        if (response.ok) {
-            const { token } = await response.json();
-            localStorage.setItem("token", token);
-        } else {
-            const { message } = await response.json();
-            throw new Error(message);
-        }
     };
 
     const signup = async (email: string, password: string) => {
-        const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/register", {
+        await request<AuthenticationResponse>({
+            endpoint: "/api/v1/authentication/register",
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify({ email, password }),
+            onSuccess: ({ token }) => {
+                localStorage.setItem("token", token);
+            },
+            onFailure: (error) => {
+                throw new Error(error);
+            }
         });
-        if (response.ok) {
-            const { token } = await response.json();
-            localStorage.setItem("token", token);
-        } else {
-            const { message } = await response.json();
-            throw new Error(message);
-        }
     };
 
     const logout = () => {
@@ -86,23 +85,17 @@ export const AuthenticationContextProvider = () => {
         }
         setIsLoading(true);
         const fetchUser = async () => {
-            try {
-                const response = await fetch(import.meta.env.VITE_API_URL + "/api/v1/authentication/user", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error("Authentication Failed");
-                }
-                const user = await response.json();
-                setUser(user);
-
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setIsLoading(false);
-            }
+            await request<User>({
+                endpoint: "/api/v1/authentication/user",
+                method: "GET",
+                onSuccess: (data) => {
+                    setUser(data);
+                },
+                onFailure: (error) => {
+                    console.error(error);
+                },
+            });
+            setIsLoading(false);
         }
         fetchUser();
     }, [user, location.pathname]);
