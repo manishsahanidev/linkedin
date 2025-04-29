@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         children: [
           { path: "login", element: <Login /> },
           { path: "signup", element: <Signup /> },
-          { path: "request-password-reset", element: <ResetPassword /> },
+          { path: "reset-password", element: <ResetPassword /> },
           { path: "verify-email", element: <VerifyEmail /> },
           { path: "profile/:id", element: <Profile /> }
         ],
