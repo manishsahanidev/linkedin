@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
@@ -45,36 +47,48 @@ public class AuthenticationController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@RequestAttribute("authenticatedUser") AuthenticationUser user) {
+    public ResponseEntity<Map<String, String>> deleteUser(
+            @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.deleteUser(user.getId());
-        return "User deleted successfully.";
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User deleted successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/validate-email-verification-token")
-    public ResponseEntity<String> verifyEmail(@RequestParam String token,
+    public ResponseEntity<Map<String, String>> verifyEmail(@RequestParam String token,
             @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.validateEmailVerificationToken(token, user.getEmail());
-        return ResponseEntity.ok("Email verified successfully.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Email verified successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/send-email-verification-token")
-    public ResponseEntity<String> sendEmailVerificationToken(
+    public ResponseEntity<Map<String, String>> sendEmailVerificationToken(
             @RequestAttribute("authenticatedUser") AuthenticationUser user) {
         authenticationService.sendEmailVerificationToken(user.getEmail());
-        return ResponseEntity.ok("Email verification token sent successfully.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Email verification token sent successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/send-password-reset-token")
-    public ResponseEntity<String> sendPasswordResetToken(@RequestParam String email) {
+    public ResponseEntity<Map<String, String>> sendPasswordResetToken(@RequestParam String email) {
         authenticationService.sendPasswordResetToken(email);
-        return ResponseEntity.ok("Password reset token sent successfully.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password reset token sent successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String newPassword, @RequestParam String token,
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestParam String newPassword,
+            @RequestParam String token,
             @RequestParam String email) {
         authenticationService.resetPassword(email, newPassword, token);
-        return ResponseEntity.ok("Password reset successfully.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password reset successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/profile/{id}")
@@ -99,5 +113,4 @@ public class AuthenticationController {
         return authenticationService.updateUserProfile(id, firstName, lastName, company, position, location,
                 profilePicture, coverPicture, about);
     }
-
 }
